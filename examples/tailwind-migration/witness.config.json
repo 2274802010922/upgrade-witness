@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "project": { "startScript": "dev", "buildScript": "build" },
+  "timeoutMs": 15000,
+  "scenarios": [
+    {
+      "id": "desktop-overview",
+      "route": "/",
+      "viewport": { "width": 1280, "height": 900 },
+      "assertions": [
+        { "id": "page-title", "selector": "[data-testid=page-title]", "kind": "text", "expected": "Migration notebook" },
+        { "id": "column-count", "selector": "[data-testid=notes-grid]", "kind": "style", "name": "column-count", "expected": "3" },
+        { "id": "primary-variant", "selector": "[data-testid=primary-action]", "kind": "attribute", "name": "data-variant", "expected": "outline" }
+      ],
+      "screenshot": true,
+      "maxDiffPixelRatio": 0.001
+    },
+    {
+      "id": "mobile-menu",
+      "route": "/",
+      "viewport": { "width": 390, "height": 844 },
+      "actions": [{ "type": "click", "selector": "[data-testid=menu-toggle]" }],
+      "assertions": [
+        { "id": "menu-expanded", "selector": "[data-testid=menu-toggle]", "kind": "attribute", "name": "aria-expanded", "expected": "true" },
+        { "id": "menu-visible", "selector": "[data-testid=menu-panel]", "kind": "visible", "expected": true },
+        { "id": "menu-label", "selector": "[data-testid=menu-panel] a", "kind": "text", "expected": "Migration notes" },
+        { "id": "mobile-columns", "selector": "[data-testid=notes-grid]", "kind": "style", "name": "column-count", "expected": "1" }
+      ],
+      "screenshot": true,
+      "maxDiffPixelRatio": 0.001
+    }
+  ],
+  "intendedChanges": []
+}

@@ -1,0 +1,35 @@
+name: Migration case / Ca migration
+description: Contribute a minimal regression, clean upgrade or intended change / Đóng góp ca kiểm chứng
+title: "[Case]: "
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Case type / Loại tình huống
+      options:
+        - Regression / Lỗi phát sinh
+        - Clean upgrade / Nâng cấp sạch
+        - Intended change / Thay đổi có chủ đích
+        - Inconclusive setup / Chưa kết luận do môi trường
+    validations:
+      required: true
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Scenario and expected behavior / Tình huống và hành vi kỳ vọng
+    validations:
+      required: true
+  - type: textarea
+    id: replay
+    attributes:
+      label: Before/after and replay / Trước-sau và cách chạy lại
+      description: "Exact versions, revisions, lockfile, commands and observed outcome. / Phiên bản, revision, lockfile, lệnh và kết quả quan sát."
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Provenance and license / Nguồn gốc và giấy phép
+      description: "Original work or source URL, author, license, required notices. / Tự tạo hoặc URL nguồn, tác giả, giấy phép, thông báo cần giữ."
+    validations:
+      required: true

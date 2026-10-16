@@ -1,0 +1,39 @@
+name: Bug report / Báo lỗi
+description: Report an observed failure with reproducible evidence / Báo lỗi có bằng chứng chạy lại
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: "Use this form for implemented behavior. For planning-stage feedback use a feature proposal. Remove secrets and private data. / Dùng cho hành vi đã triển khai; góp ý kế hoạch dùng mẫu đề xuất. Loại bỏ dữ liệu nhạy cảm."
+  - type: textarea
+    id: environment
+    attributes:
+      label: Versions and environment / Phiên bản và môi trường
+      description: "Project commit, tool/agent version, OS, Node/npm, browser. / Commit, phiên bản công cụ/agent, OS, Node/npm, browser."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction / Cách tái hiện
+      description: "Small public example or sanitized steps, including base/head identities. / Ví dụ nhỏ công khai hoặc bước đã làm sạch, kèm base/head."
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and observed behavior / Kỳ vọng và quan sát
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and checks actually run / Bằng chứng và kiểm tra đã chạy
+      description: "Attach only sanitized artifacts; distinguish observation from suspected cause. / Chỉ đính kèm artifact đã làm sạch; tách quan sát khỏi nguyên nhân nghi vấn."
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Sharing / Chia sẻ
+      options:
+        - label: "I have the right to share this material and removed secrets/private data. / Tôi có quyền chia sẻ và đã loại dữ liệu riêng tư."
+          required: true

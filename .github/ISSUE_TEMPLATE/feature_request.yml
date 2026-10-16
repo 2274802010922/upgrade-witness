@@ -1,0 +1,21 @@
+name: Feature proposal / Đề xuất
+description: Explain a developer problem and desired outcome / Nêu vấn đề và kết quả mong muốn
+title: "[Idea]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and current workaround / Vấn đề và cách xử lý hiện tại
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome / Kết quả mong muốn
+      description: "Include a concrete example and how success could be checked. / Kèm ví dụ cụ thể và cách kiểm tra thành công."
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Stack, frequency and alternatives / Stack, tần suất và phương án khác

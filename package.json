@@ -1,0 +1,32 @@
+{
+  "name": "upgrade-witness",
+  "version": "0.1.0-alpha.1",
+  "description": "Reproducible before-and-after evidence for frontend upgrades.",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "bin": { "upgrade-witness": "dist/src/cli.js", "uw": "dist/src/cli.js" },
+  "files": ["dist/src", "skills", "README.md", "README.vi.md", "LICENSE"],
+  "engines": { "node": ">=22.19" },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test dist/test/*.test.js",
+    "demo": "npm run build && node scripts/demo.mjs",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "playwright": "1.64.1",
+    "pixelmatch": "8.0.0",
+    "pngjs": "7.0.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "@types/node": "^24.0.0",
+    "@types/pngjs": "6.0.5"
+  },
+  "repository": { "type": "git", "url": "git+https://github.com/2274802010922/upgrade-witness.git" },
+  "bugs": { "url": "https://github.com/2274802010922/upgrade-witness/issues" },
+  "homepage": "https://github.com/2274802010922/upgrade-witness#readme"
+}

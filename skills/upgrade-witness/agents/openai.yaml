@@ -1,0 +1,4 @@
+interface:
+  display_name: "Upgrade Witness"
+  short_description: "Verify upgrade behavior with replayable evidence"
+  default_prompt: "Use $upgrade-witness to verify this frontend upgrade and show the evidence and coverage gaps."
