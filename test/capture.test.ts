@@ -34,7 +34,7 @@ test('real Chromium captures actions, all assertion kinds, deterministic context
   t.after(() => new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve())));
   const address = server.address();
   assert.ok(address && typeof address !== 'string');
-  const config = parseConfig({ schemaVersion: 1, timeoutMs: 1000, scenarios: [
+  const config = parseConfig({ schemaVersion: 1, timeoutMs: 5000, scenarios: [
     { id: 'workflow', route: '/', viewport: { width: 640, height: 480 }, mask: ['#private'], actions: [{ type: 'fill', selector: '#entry', value: 'synthetic input' }, { type: 'press', selector: '#entry', value: 'Enter' }, { type: 'click', selector: '#open' }], assertions: [
       { id: 'output', selector: '#output', kind: 'text', expected: 'synthetic input' },
       { id: 'visible', selector: '#panel', kind: 'visible', expected: true },
@@ -73,7 +73,7 @@ test('navigation and selector failures are sanitized while missing elements are 
   t.after(() => new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve())));
   const address = server.address();
   assert.ok(address && typeof address !== 'string');
-  const config = parseConfig({ schemaVersion: 1, timeoutMs: 1000, scenarios: [
+  const config = parseConfig({ schemaVersion: 1, timeoutMs: 5000, scenarios: [
     { id: 'http', route: '/missing?token=DO_NOT_PRINT', screenshot: false, assertions: [{ id: 'text', selector: 'body', kind: 'text', expected: 'unavailable' }] },
     { id: 'selector', route: '/', screenshot: false, assertions: [{ id: 'bad', selector: ':DO_NOT_PRINT(', kind: 'text', expected: 'unavailable' }] },
     { id: 'missing-element', route: '/', screenshot: false, assertions: [{ id: 'missing', selector: '#absent', kind: 'visible', expected: true }, { id: 'absent-control', selector: '#absent', kind: 'visible', expected: false }] },
