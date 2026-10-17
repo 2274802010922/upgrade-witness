@@ -13,7 +13,7 @@ A native Rust CLI and AI skill that compare two committed frontend revisions and
 
 ## Run the synthetic migration demo
 
-Build prerequisites: a current stable Rust toolchain with Cargo and the platform's linker/build tools. Runtime prerequisites: Git and an installed Chrome/Chromium browser. **The CLI does not need Node.js, npm or Playwright to run.** Node.js and npm are needed to install, build and serve the target React/Vite application, including this demo.
+Build prerequisites: a current stable Rust toolchain with Cargo and the platform's linker/build tools. Windows users of Rust's MSVC toolchain also need the Visual C++ Build Tools. Runtime prerequisites: Git and an installed Chrome/Chromium browser. **The CLI does not need Node.js, npm or Playwright to run.** Node.js and npm are needed to install, build and serve the target React/Vite application, including this demo. See [Rust's Windows setup notes](https://rust-lang.github.io/rustup/installation/windows.html).
 
 ```sh
 git clone https://github.com/2274802010922/upgrade-witness.git

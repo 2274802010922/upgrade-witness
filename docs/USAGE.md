@@ -4,7 +4,7 @@
 
 ## Start / Bắt đầu
 
-Install a current Rust toolchain, then run `cargo build --locked`. The executable is native Rust. `cargo run -- doctor` checks Git and launches Chromium. The CLI does not need Node.js, npm or Playwright. Node.js/npm are needed to build and run the React/Vite application being inspected. / Cài Rust stable, sau đó chạy `cargo build --locked`. CLI dùng Rust; `doctor` kiểm Git và mở Chromium. Node/npm chỉ cần cho ứng dụng React/Vite được kiểm tra.
+Install a current Rust toolchain, then run `cargo build --locked`. On Windows with the MSVC Rust target, install Visual C++ Build Tools. The executable is native Rust. `cargo run -- doctor` checks Git and launches Chromium. The CLI does not need Node.js, npm or Playwright. Node.js/npm are needed only to build and run the React/Vite application being inspected. [Rust Windows setup](https://rust-lang.github.io/rustup/installation/windows.html). / Cài Rust stable và linker phù hợp; Windows với target MSVC cần thêm Visual C++ Build Tools. CLI dùng Rust; Node/npm chỉ cần cho ứng dụng React/Vite được kiểm tra.
 
 `doctor` thật sự mở rồi đóng Chromium. GitHub CI kiểm riêng Ubuntu và Windows. Chỉ chạy script của repo bạn tin cậy; cài dependency và build ứng dụng đích có thực thi code. / `doctor` kiểm browser thật; script của ứng dụng đích có thể chạy code.
 

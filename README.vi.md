@@ -13,7 +13,7 @@ CLI native Rust và skill AI đối chiếu hai revision frontend đã commit, t
 
 ## Chạy demo migration tổng hợp
 
-Để build, cần Rust stable hiện hành, Cargo và linker/công cụ build của hệ điều hành. Khi chạy, cần Git và Chrome/Chromium đã cài. **Bản thân CLI không cần Node.js, npm hay Playwright.** Node.js và npm dùng để cài, build và phục vụ ứng dụng React/Vite được kiểm tra, bao gồm demo này.
+Để build, cần Rust stable, Cargo và linker/công cụ build của hệ điều hành. Trên Windows dùng target MSVC cần thêm Visual C++ Build Tools. Khi chạy, cần Git và Chrome/Chromium đã cài. **CLI không cần Node.js, npm hay Playwright để vận hành.** Node.js/npm chỉ dùng cho ứng dụng React/Vite được kiểm tra, gồm demo này. Xem [hướng dẫn cài Rust trên Windows](https://rust-lang.github.io/rustup/installation/windows.html).
 
 ```sh
 git clone https://github.com/2274802010922/upgrade-witness.git
