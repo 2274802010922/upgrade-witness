@@ -8,6 +8,21 @@
 
 **Status:** this package contains plans and repository presentation assets. It contains no implemented verifier, released package, measured benchmark results, or published GitHub repository.
 
+## Implementation update: native Rust alpha — 17 October 2026
+
+The original W1–W8 plan below was written on 16 October, before the implementation request and switch to Rust. The code roadmap shifted accordingly. Upgrade Witness is now a public MIT repository with a native Rust CLI, Markdown agent skill, a React/Vite/NPM target fixture, reports, test coverage and bilingual contributor documents. The TypeScript core has been removed from the current branch; the initial 0.1 prototype remains in Git history but was never released to npm.
+
+| Workstream | Current evidence/status |
+|---|---|
+| W1 discovery and definition | Repository, scope and original requirements are recorded. User interviews have not been run. |
+| W2 vertical slice and W3–4 alpha | Rust CLI, detached revisions, repeated Chromium captures, semantic assertions, pixel review, hashed reports and positive-control demo are implemented. 29 Rust tests pass locally on Windows with Chrome 155; strict Clippy and formatting pass. |
+| W5 independent evaluation | Pending. The proposed 20-fixture/120-run paired benchmark has not been executed. |
+| W6 opt-in pilot | Pending. No external user sessions or 14-day reuse results are claimed. |
+| W7 release candidate | Prepare only after the evaluation gate and consented pilot; do not infer readiness from the synthetic demo. |
+| W8 public beta | Not scheduled or released. Beta requires independent validation and a review of pilot blockers. |
+
+Rust demo evidence: 14 checkpoints, 12 passed, two expected authored regression failures, zero missing checks; screenshot differences remain review findings, so `complete:false`. This is a deterministic positive control, not measured accuracy. The root Rust CI workflow validates the pushed Rust commit on Ubuntu/Windows. See [current status](STATUS.md) and [Rust architecture/migration notes](RUST-MIGRATION.md) for runtime requirements and limitations.
+
 ## 1. Product promise and customer
 
 **English:** “Upgrade your dependencies. See what changed.”

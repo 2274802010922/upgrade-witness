@@ -8,6 +8,21 @@
 
 **Trạng thái:** bộ tài liệu này gồm kế hoạch và tài sản trình bày repo. Chưa có bộ kiểm chứng được triển khai, package phát hành, kết quả benchmark đã đo hay repo GitHub đã xuất bản.
 
+## Cập nhật triển khai: alpha Rust native — 17/10/2026
+
+Kế hoạch W1–W8 bên dưới được viết ngày 16/10, trước yêu cầu triển khai và đổi sang Rust. Roadmap code đã chuyển hướng theo đó. Upgrade Witness hiện là repo MIT công khai, gồm CLI Rust native, agent skill Markdown, fixture mục tiêu React/Vite/npm, report, test và bộ tài liệu đóng góp song ngữ. Nhánh hiện tại đã gỡ lõi TypeScript; prototype 0.1 vẫn nằm trong lịch sử Git nhưng chưa từng phát hành lên npm.
+
+| Hạng mục | Bằng chứng/trạng thái hiện tại |
+|---|---|
+| W1 khám phá và xác định vấn đề | Đã ghi repo, phạm vi và yêu cầu gốc. Chưa phỏng vấn người dùng. |
+| W2 vertical slice và W3–4 alpha | Có CLI Rust, detached revision, capture Chromium lặp, assertion hành vi, review pixel, report có hash và demo positive-control. 29 test Rust, strict Clippy và format đã pass local trên Windows/Chrome 155. |
+| W5 đánh giá độc lập | Chưa chạy. Bộ benchmark đề xuất 20 fixture/120 lượt so sánh chưa được thực hiện. |
+| W6 pilot tự nguyện | Chưa thực hiện. Chưa có buổi dùng thử hay kết quả dùng lại 14 ngày; không khẳng định đã có pilot. |
+| W7 release candidate | Chỉ chuẩn bị sau khi đạt ngưỡng đánh giá và xử lý vướng mắc pilot có đồng thuận; không suy ra mức sẵn sàng từ demo tổng hợp. |
+| W8 beta công khai | Chưa lên lịch hoặc phát hành. Cần đánh giá độc lập và review pilot trước beta. |
+
+Bằng chứng demo Rust: 14 checkpoint; 12 đạt, hai regression cố ý, không bỏ sót; ảnh còn cần review nên `complete:false`. Đây chỉ là positive-control xác định, không phải phép đo độ chính xác. CI Rust của repo kiểm commit trên Ubuntu/Windows. Xem [trạng thái hiện tại](STATUS.md) và [kiến trúc/chuyển sang Rust](RUST-MIGRATION.md) để biết runtime/giới hạn.
+
 ## 1. Lời hứa sản phẩm và người dùng đầu tiên
 
 **Tiếng Việt:** “Nâng cấp thư viện. Thấy rõ điều gì thay đổi.”
