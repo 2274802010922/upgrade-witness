@@ -1,7 +1,9 @@
 node_modules/
 dist/
+target/
 .uw/
 *.tgz
+*.crate
 playwright-report/
 test-results/
 .env

@@ -1,25 +1,24 @@
 # Third-party components
 
-Upgrade Witness's original code, documentation and concept artwork use MIT.
-Dependencies are distributed by their own packages under their own licenses;
-the project license does not replace them. No REA source, artwork or issue
-reproduction code is copied into this repository.
+Upgrade Witness's original Rust code, instructions, reports and original artwork are licensed under the repository's MIT License. Dependencies retain their own terms; the project MIT license does not replace them. The project does not copy REA source, artwork, or issue reproduction code.
 
-Direct runtime dependencies and their installed package metadata at this alpha:
+Direct runtime dependencies are declared in `Cargo.toml` and pinned in `Cargo.lock`. Their package licenses are:
 
-| Package | Version | License |
-|---|---|---|
-| playwright | 1.64.1 | Apache-2.0 |
-| playwright-core (transitive browser driver) | 1.64.1 | Apache-2.0 |
-| pixelmatch | 8.0.0 | ISC |
-| pngjs | 7.0.0 | MIT |
-| zod | 4.6.7 | MIT |
+| Crate | Locked version | License recorded by the crate |
+|---|---:|---|
+| `headless_chrome` | 1.0.22 | MIT |
+| `anyhow` | 1.0.104 | MIT OR Apache-2.0 |
+| `base64` | 0.22.1 | MIT OR Apache-2.0 |
+| `chrono` | 0.4.45 | MIT OR Apache-2.0 |
+| `clap` | 4.6.7 | MIT OR Apache-2.0 |
+| `image` | 0.25.9 | MIT OR Apache-2.0 |
+| `regex` | 1.13.1 | MIT OR Apache-2.0 |
+| `serde`, `serde_json` | 1.0.229, 1.0.154 | MIT OR Apache-2.0 |
+| `sha2` | 0.10.9 | MIT OR Apache-2.0 |
+| `tempfile` | 3.27.0 | MIT OR Apache-2.0 |
+| `url` | 2.5.8 | MIT OR Apache-2.0 |
+| `uuid` | 1.26.1 | Apache-2.0 OR MIT |
 
-Keep each dependency's license and notices when redistributing its material.
-Browser binaries are downloaded separately by Playwright and carry their own
-notices. Development and example dependencies are recorded in their respective
-lockfiles; preserve their package-provided licenses. The example React/Vite app
-is original synthetic test code; its known changes are documented openly.
+Transitive licenses are recorded in the locked dependency registry metadata and must be preserved when redistributing their code. The CLI uses the installed system Chrome/Chromium; it does not bundle the browser binary. The React/Vite/Tailwind fixture includes original synthetic source and separate npm lockfiles. npm dependencies keep the licenses in their respective packages.
 
-The MIT license text follows the [Open Source Initiative text](https://opensource.org/license/mit).
-Research links in the design documents are references, not endorsements.
+The license text follows the [Open Source Initiative MIT license](https://opensource.org/license/mit). Research links are references, not endorsements.

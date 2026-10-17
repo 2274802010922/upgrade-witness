@@ -1,19 +1,23 @@
 # Implementation status / Trạng thái triển khai
 
-Updated / Cập nhật: 16 October 2026. Version / Phiên bản: `0.1.0-alpha.1`.
+Updated / Cập nhật: 17 October 2026 · `0.2.0-alpha.1` · Current source: native Rust.
 
 | Area / Phần | Status / Trạng thái |
 |---|---|
-| Public repository, MIT, EN/VI docs, contribution templates | Created / Đã tạo |
-| Skill + CLI source, strict configuration, detached revisions | Implemented / Đã triển khai |
-| Repeated browser capture, semantic and image comparison, static reports | Implemented / Đã triển khai |
-| Original React/Vite Tailwind 3→4 synthetic demo | Passed: two expected regressions, 14 checkpoints executed / Đạt: hai regression mong đợi, chạy đủ 14 checkpoint |
-| Local typecheck and 26 focused tests | Passed on Windows with bundled Chromium / Đạt trên Windows với Chromium đi kèm |
-| Linux/Windows GitHub Actions | Configured; check the live workflow for current results / Đã cấu hình; xem workflow thực tế |
-| Independent 20-fixture evaluation | Not performed / Chưa thực hiện |
-| Five external pilots and 14-day reuse observation | Not performed / Chưa thực hiện |
-| Public beta, MCP, Next.js, other package managers | Deferred / Chưa triển khai |
+| Public GitHub repo, MIT, bilingual README and contribution workflow | Created / Đã tạo |
+| Native Rust CLI, strict config, pinned Git worktrees and bounded target process lifecycle | Implemented locally / Đã triển khai local |
+| Rust Chromium CDP capture and repeated baseline/candidate comparison | Implemented locally / Đã triển khai local |
+| Zero-area visibility and top-layer screenshot-mask regressions found by review | Fixed with browser tests / Đã sửa và có test browser |
+| Rust HTML/Markdown/JSON reports and evidence hashes | Implemented / Đã triển khai |
+| Synthetic React/Vite/Tailwind 3→4 positive-control demo | 14 checkpoints: 12 pass, 2 intended assertion regressions, 0 not run / Đã chạy đủ 14 checkpoint |
+| Rust format, clippy and local test suite | Passed on Windows with Chrome 155; 29 tests / Đạt trên Windows với Chrome 155; 29 test |
+| Rust CI matrix (Ubuntu 24.04 and Windows 2025) | Configured. GitHub Actions on the current source commit is authoritative / Đã cấu hình; xem Actions của commit hiện tại |
+| Independent 20-fixture held-out evaluation | Not performed / Chưa thực hiện |
+| Five external-user pilots and 14-day reuse observation | Not performed / Chưa thực hiện |
+| Public Rust beta / MCP / Next.js / additional package managers | Deferred / Chưa triển khai |
 
-The design documents describe the original roadmap; their future-looking targets are not performance claims. This alpha validates a narrow execution path and explicitly authored scenarios. It does not complete user interviews, independent evaluation or external pilots. / Tài liệu thiết kế chứa mục tiêu ban đầu, không phải số liệu thành tích. Alpha kiểm một luồng thực thi hẹp và các tình huống được viết rõ; chưa hoàn thành phỏng vấn, đánh giá độc lập hoặc pilot.
+The initial TypeScript architecture/roadmap/GitHub materials are dated design snapshots, not the current implementation spec. See [the native Rust update](RUST-MIGRATION.md) and current README/source. Benchmark targets are unmeasured. The demo contains intentionally authored faults and proves only this bounded path, not general-world accuracy.
 
-Next work: independent fixture review, new unseen migration cases, setup feedback from consenting users, then quality gates for beta. / Tiếp theo: review fixture độc lập, ca migration chưa từng thấy, phản hồi setup từ người tự nguyện, rồi nghiệm thu beta.
+Roadmap work remaining: recruit willing pilot users, independently construct the held-out benchmark fixtures, run the paired evaluation and record results before deciding on a beta. Do not count missing participants as successful pilot outcomes.
+
+Tài liệu thiết kế lưu đề xuất TypeScript ban đầu để làm lịch sử; phần đó đã được thay bằng alpha Rust. Mục tiêu benchmark chưa được đo. Demo chỉ minh họa luồng kiểm chứng. Công việc còn lại là pilot có người thật, bộ fixture giữ kín độc lập và đánh giá đối chiếu trước khi quyết định beta.

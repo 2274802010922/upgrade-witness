@@ -4,86 +4,88 @@
 
 **Upgrade your dependencies. See what changed.**
 
-An AI skill and local CLI that compare two committed frontend revisions and produce reviewable evidence. Start with **React + Vite, npm, Tailwind 3 → 4 and Chromium**.
+A native Rust CLI and AI skill that compare two committed frontend revisions and produce reviewable evidence. The first workflow targets **React + Vite, npm, Tailwind 3 → 4 and Chromium**.
 
 ![Original concept illustration: baseline, upgrade, evidence.](assets/hero.svg)
 
 [![CI](https://github.com/2274802010922/upgrade-witness/actions/workflows/ci.yml/badge.svg)](https://github.com/2274802010922/upgrade-witness/actions/workflows/ci.yml)
-**Early alpha** · [MIT](LICENSE) · [Roadmap](docs/ROADMAP.en.md) · [Contribute](CONTRIBUTING.md)
+**v0.2.0-alpha.1 · Native Rust** · [MIT](LICENSE) · [Roadmap](docs/ROADMAP.en.md) · [Contribute](CONTRIBUTING.md)
 
-## Try a real before-and-after run
+## Run the synthetic migration demo
 
-Prerequisites: Git, Node.js 24 and npm. The current development/runtime checks use Node 24.16.0. The fixture and browser are downloaded during setup; run only projects you trust.
+Build prerequisites: a current stable Rust toolchain with Cargo and the platform's linker/build tools. Runtime prerequisites: Git and an installed Chrome/Chromium browser. **The CLI does not need Node.js, npm or Playwright to run.** Node.js and npm are needed to install, build and serve the target React/Vite application, including this demo.
 
 ```sh
 git clone https://github.com/2274802010922/upgrade-witness.git
 cd upgrade-witness
-npm ci
-npx playwright install chromium
-npm run demo
+cargo build --locked
+cargo run --locked -- doctor
+cargo run --locked -- demo
 ```
 
-On Linux, use `npx playwright install --with-deps chromium` if browser system libraries are missing.
+`doctor` checks Git and actually launches the browser. Chrome/Chromium is detected locally; set `UW_BROWSER_EXECUTABLE` to a trusted browser executable if detection fails. No browser downloader or Node-based browser driver is required. See [platform setup and commands](docs/USAGE.md).
 
-The demo creates an isolated Git repository, commits original synthetic Tailwind 3 and Tailwind 4 states, runs the verifier and checks its result. It intentionally introduces two behavior changes: a lost column configuration and a changed `data-variant`. **A regression result is the expected demo outcome.** The wrapper exits successfully only when the expected findings are present. It prints the generated report location. See [the example and its provenance](examples/tailwind-migration/README.md).
+The demo creates an isolated Git repository with original synthetic Tailwind 3 and Tailwind 4 states. It deliberately loses a column configuration and changes a `data-variant`. The verifier should detect both assertion regressions; the demo command returns success only when those expected findings are present and no assertion checkpoints are missing. Visual differences remain review items, so a successful demo can report `complete:false`.
 
-This is a runnable example, not a benchmark of real-world accuracy or of the current Tailwind upgrade tool.
-
-[See the actual demo report and observations](docs/cases/tailwind-demo.md).
-
-[See the actual demo report and observations](docs/cases/tailwind-demo.md).
+The command prints the generated report location. [See the actual Rust demo report and observations](docs/cases/tailwind-demo.md), or inspect [the fixture and its provenance](examples/tailwind-migration/README.md). This example does not measure real-world accuracy or the behavior of today's official Tailwind migrator.
 
 ## Use it with your agent
 
-The repository includes [the skill](skills/upgrade-witness/SKILL.md). Make the `skills/upgrade-witness` folder available through your agent's documented skill mechanism, or ask the agent to read that file. The host needs access to this checkout, a shell and the installed CLI dependencies. The skill does not install a model, register an MCP server or grant additional permissions.
+Make [the skill folder](skills/upgrade-witness/SKILL.md) available through your agent's documented skill mechanism, or ask the agent to read its entrypoint. The skill uses a separately built `uw` binary or this Cargo checkout. It does not install a model, register an MCP server, or grant permissions.
 
 > Use Upgrade Witness to verify this Tailwind migration. Preserve the navigation and layout behavior we specify. Show reproducible findings and anything you could not verify.
 
-The host agent can help perform a requested migration using official tooling. The CLI itself **verifies committed revisions**; it does not automatically migrate or merge your application.
+Your agent can help perform an authorized migration with official tools. The Rust CLI verifies committed revisions; it does not migrate or merge your application.
 
 ## Verify your project
 
-Start from [the example configuration](examples/tailwind-migration/witness.config.json). Define your baseline expectations before inspecting candidate outcomes. Both revisions need an npm lockfile and a Vite-compatible development script.
+Start from [the example configuration](examples/tailwind-migration/witness.config.json). Define expectations from the baseline and your requirements before inspecting candidate outcomes. Both revisions need `package.json`, `package-lock.json`, and an npm development script accepting Vite's host/port flags.
 
 ```sh
-npm run build
-node dist/src/cli.js doctor
-node dist/src/cli.js verify --repo /path/to/trusted-app --base BASE_COMMIT --head HEAD_COMMIT --config /path/to/witness.config.json --out .uw/my-first-run --trust-project
+cargo run --locked -- verify --repo "/path/to/trusted-app" --base BASE_COMMIT --head HEAD_COMMIT --config "/path/to/witness.config.json" --out ".uw/my-first-run" --trust-project
 ```
 
-Use quotes for Windows paths with spaces. `--out` must not already exist. The explicit trust flag acknowledges that the selected repository's install, build and start scripts execute code.
+Replace the paths and commit placeholders. Use quotes for Windows paths with spaces. `--out` must be new. `--trust-project` acknowledges execution of the selected project's installation, build and start scripts within your authorized task.
 
-The verifier resolves immutable SHAs, creates detached worktrees, captures baseline and candidate scenarios, and writes `report.html`, `report.md`, `report.json`, screenshots and hashed evidence. Uncommitted source changes are excluded and left untouched. [Configuration and commands](docs/USAGE.md)
+For direct use, `cargo build --locked --release` produces `target/release/uw` on Unix or `target\release\uw.exe` on Windows. The binary accepts the same subcommands and flags.
+
+The verifier resolves full commit SHAs, creates detached worktrees, captures each side twice on the same local origin, and writes HTML, Markdown and JSON reports with screenshots and evidence hashes. It excludes and preserves uncommitted source changes. [Configuration and interpretation](docs/USAGE.md)
 
 | Exit | Meaning |
 |---|---|
-| `0` | Required checks completed with no regression or unresolved difference |
-| `1` | At least one confirmed assertion regression; other unresolved findings may remain |
-| `2` | Inconclusive, unstable baseline, infrastructure failure or visual difference requiring review |
-| `64` | Invalid usage or configuration |
+| `0` | Required verification completed without regressions or unresolved differences |
+| `1` | At least one repeatable assertion regression; unresolved findings may coexist |
+| `2` | Inconclusive verification, baseline instability, infrastructure failure or visual review; also an unsuccessful `doctor` check |
+| `64` | Invalid command/configuration or an error before a verification report can be produced |
 
-Read `complete` and coverage as well as the exit code. A screenshot difference is a review item, not automatic proof of a bug. An expected attribute change does not automatically approve every visual change on that page.
+Read `complete` and coverage alongside the exit code. A regression can coexist with `complete:false`. A screenshot difference is a review item, not automatic proof of a bug.
 
-## What is implemented
+## What the Rust alpha implements
 
-- Detached revision workspaces, lockfile-based installs, readiness checks and bounded process lifetimes.
-- Configured clicks, fills and keypresses; assertions for visibility, text, attributes and computed styles.
-- Baseline stability checks, intended-change decisions, image comparison and evidence integrity hashes.
-- Static HTML/Markdown/JSON reports with observations separated from causality.
-- Original synthetic migration demo, focused tests and Windows/Linux CI configuration.
+- Pinned detached revision worktrees, npm lockfile installs, optional builds and bounded server startup.
+- CSS-selector actions for clicking, filling and pressing keys; visibility, trimmed text, attribute and computed-style assertions.
+- Repeated baseline/candidate observations, explicit intended changes and same-environment screenshot comparison.
+- Static HTML/Markdown/JSON evidence reports, sanitized text and SHA-256 artifact hashes.
+- A synthetic migration demo and Rust tests for comparison, reports, CLI, workspaces and browser interactions.
+
+Pixel comparison counts a pixel as changed when any RGBA channel differs by more than 25 out of 255, then compares the changed-pixel fraction with `maxDiffPixelRatio`. This is a small deterministic threshold, not a claim of production-grade visual-diff precision.
 
 ## Boundaries that matter
 
-This alpha checks only the declared routes, states and assertions. It does not prove whole-application equivalence. Dynamic clocks, random values and live network data are not automatically frozen; use deterministic fixtures. There is no Next.js/SSR, monorepo, pnpm, MCP or production automation support yet.
+Only declared routes, states and assertions are checked. The runner fixes viewport, device scale, locale, timezone, color scheme and reduced motion; it does not freeze clocks, random values, live data or font assets. Use deterministic fixtures and the same browser version. A narrow viewport is not full mobile-device emulation. Unsupported or unavailable navigation status is inconclusive. Next.js/SSR, monorepos, pnpm, MCP and production automation are outside this alpha.
 
-Use synthetic non-sensitive data. Screenshots mask input fields and configured selectors; arbitrary page text/images and explicitly collected assertion values can still contain private data. Token redaction is best effort. Review all artifacts before sharing. The CLI has no model calls or uploads; your host agent may transmit context to its model provider. Worktrees are not security sandboxes, and deliberately detached server daemons may escape cleanup.
+Use synthetic non-sensitive data. Screenshots mask input fields, editable regions and configured selectors, but other page content and assertion values may still be private. Token filtering is best effort; review all artifacts before sharing. The CLI makes no model calls or uploads, while your agent may send context to its provider. Worktrees are not security sandboxes; deliberately detached daemons may escape process cleanup.
 
-Independent held-out evaluation and external pilots are **not yet completed**. The [evaluation protocol](docs/BENCHMARK.en.md) contains targets, not measured performance claims. [Implementation status](docs/STATUS.md)
+Independent held-out evaluation and external pilots are **not yet completed**. The [evaluation protocol](docs/BENCHMARK.en.md) contains targets, not measured performance claims. The [Rust architecture update](docs/RUST-MIGRATION.md) describes the implementation decision; [status](docs/STATUS.md) separates verified local work from pending checks.
 
 ## Build with us
 
-Contribute a minimal migration case, a clean control, an assertion, a report improvement or a translation. Read [CONTRIBUTING](CONTRIBUTING.md). Original fixtures, honest evidence and small PRs are especially useful.
+Contribute a minimal migration case, a clean control, an assertion, a report improvement or an English/Vietnamese correction. Read [CONTRIBUTING](CONTRIBUTING.md).
 
 [Architecture](docs/ARCHITECTURE.en.md) · [Bilingual backlog](docs/BACKLOG.md) · [GitHub presentation plan](docs/GITHUB.en.md) · [Security](SECURITY.md)
+
+[Native Rust architecture](docs/RUST-MIGRATION.md) · [Tiếng Việt](docs/RUST-MIGRATION.vi.md)
+
+[Repository social preview artwork · 1280 × 640](assets/social-card-rust-alpha.png)
 
 [MIT](LICENSE) · Copyright (c) 2026 Upgrade Witness contributors. Third-party material retains its applicable terms.

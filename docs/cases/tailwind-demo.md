@@ -1,8 +1,8 @@
 # A synthetic Tailwind migration, observed end to end
 
-[English](../../README.md) · [Tiếng Việt](../../README.vi.md) · Recorded / Ghi nhận: 16 October 2026
+[English](../../README.md) · [Tiếng Việt](../../README.vi.md) · Recorded / Ghi nhận: 17 October 2026
 
-This is an original positive-control fixture, deliberately authored with two defects. It is not held-out evaluation, a third-party testimonial, or a claim about the current Tailwind migrator. / Đây là ca đối chứng tự tạo, cố ý có hai lỗi; không phải đánh giá giữ kín hoặc thành tích của công cụ nâng cấp Tailwind hiện tại.
+This is an original positive-control fixture, deliberately authored with two defects and verified with the native Rust CLI/Chrome driver. It is not held-out evaluation, a third-party testimonial, or a claim about the current Tailwind migrator. / Đây là ca đối chứng tự tạo, chạy bằng CLI Rust/browser driver Chromium, cố ý có hai lỗi; không phải đánh giá giữ kín hoặc thành tích của công cụ nâng cấp Tailwind hiện tại.
 
 ![Actual generated report from the synthetic migration run](../../assets/demo-report.png)
 
@@ -19,7 +19,7 @@ All **14 assertion checkpoints** executed: **12 passed, 2 failed, 0 not run**. E
 
 Đã chạy đủ **14 checkpoint**: **12 đạt, 2 lỗi, 0 bỏ qua**. Mỗi bên chạy hai lần để kiểm ổn định. Verifier trả **1**, `complete:false` vì còn ảnh cần review. Script demo trả **0** vì đã phát hiện đúng lỗi cố ý tạo ra.
 
-Environment: Windows x64, Node 24.16.0, Playwright 1.64.1, Chromium 156.0.8078.4. Fixture dependencies are pinned in its lockfiles. The demo creates its own temporary commits; those SHAs identify local fixture revisions, not release commits in this repository.
+Environment for the linked screenshot: Windows x64, Rust 1.99.1, Chrome 155.0.8059.82, headless_chrome 1.0.22. Node/npm serve the demo application fixture only. Fixture dependencies are pinned in their lockfiles. The demo creates its own temporary Git commits; their SHAs identify the authored synthetic states, not release commits in this repository.
 
 ## Replay / Chạy lại
 

@@ -4,12 +4,12 @@
 
 ## Start / Bắt đầu
 
-Build with `npm ci`, `npx playwright install chromium`, and `npm run build`. Run `node dist/src/cli.js doctor`; it launches and closes Chromium to check readiness. On Linux, install required browser libraries with `npx playwright install --with-deps chromium`.
+Install a current Rust toolchain, then run `cargo build --locked`. The executable is native Rust. `cargo run -- doctor` checks Git and launches Chromium. The CLI does not need Node.js, npm or Playwright. Node.js/npm are needed to build and run the React/Vite application being inspected. / Cài Rust stable, sau đó chạy `cargo build --locked`. CLI dùng Rust; `doctor` kiểm Git và mở Chromium. Node/npm chỉ cần cho ứng dụng React/Vite được kiểm tra.
 
-Cài dependency/browser và build theo các lệnh trên. `doctor` thực sự mở rồi đóng Chromium, không chỉ kiểm file tồn tại. Chỉ chạy script của repo bạn tin cậy; việc cài đặt và build có thực thi code.
+`doctor` thật sự mở rồi đóng Chromium. GitHub CI kiểm riêng Ubuntu và Windows. Chỉ chạy script của repo bạn tin cậy; cài dependency và build ứng dụng đích có thực thi code. / `doctor` kiểm browser thật; script của ứng dụng đích có thể chạy code.
 
 ```sh
-node dist/src/cli.js verify --repo /path/to/app --base BASE_SHA --head HEAD_SHA --config /path/to/witness.config.json --out .uw/run-001 --trust-project
+cargo run --locked -- verify --repo /path/to/app --base BASE_SHA --head HEAD_SHA --config /path/to/witness.config.json --out .uw/run-001 --trust-project
 ```
 
 Replace placeholders and quote Windows paths with spaces. Both revisions must be committed and contain `package.json` and `package-lock.json`. The output directory must be new. Detached temporary worktrees are removed afterward; source changes are preserved. / Thay giá trị mẫu, đặt đường dẫn có dấu cách trong ngoặc kép. Hai revision phải có commit và manifest/lockfile npm. Thư mục đầu ra phải mới. Worktree tạm được dọn sau lượt chạy; giữ thay đổi ở repo gốc.
@@ -42,11 +42,11 @@ Replace placeholders and quote Windows paths with spaces. Both revisions must be
 |---|---|
 | `project.startScript` | npm script receiving Vite flags `--host`, `--port`, `--strictPort`; default `dev` / Script tương thích cờ Vite |
 | `project.buildScript` | Optional build before serving / Build tùy chọn trước chạy |
-| `timeoutMs` | 1,000–120,000ms per operation/assertion; install capped at 5min, build at 3min / Giới hạn từng thao tác, không phải tổng lượt |
+| `timeoutMs` | 1,000–120,000ms for readiness and each assertion; install capped at 5min, build at 3min / Thời gian sẵn sàng, assertion; giới hạn build và install riêng |
 | `route` | Same-origin path starting with `/` / Đường dẫn cùng origin |
 | `actions` | `click`, `fill`, `press`; latter two require `value` / Hai loại sau cần giá trị |
 | `assertions` | `visible` boolean; `text`, `attribute`, `style` string; last two require `name` / `style` là computed CSS |
-| `mask` | Extra selectors hidden before screenshot encoding / Selector che trước khi ghi ảnh |
+| `mask` | Extra selectors hidden and their screenshot rectangles painted black in memory before PNG is written / Selector được ẩn và hình chữ nhật đen được ghi vào ảnh trong bộ nhớ trước khi lưu PNG |
 | `screenshot` | Default true; false permits assertion-only checks / Có thể chỉ kiểm assertion |
 | `maxDiffPixelRatio` | Visual review threshold, not semantic assertion tolerance / Ngưỡng review ảnh, không nới assertion |
 
@@ -56,7 +56,7 @@ An intended change is explicit: `{"scenarioId":"menu-mobile","assertionId":"menu
 
 ## Evidence and replay / Bằng chứng và chạy lại
 
-Both baseline and candidate are captured twice with fresh browser contexts and the same local origin. Locale, timezone, color scheme, reduced motion and device scale are fixed. Clock/random/network data are not automatically frozen. / Mỗi bên chạy hai lần trong context mới và cùng origin local. Cố định locale, timezone, theme, reduced motion và scale; chưa tự cố định clock/random/network.
+Both baseline and candidate are captured twice with fresh incognito contexts and the same local origin. Locale, timezone, color scheme, reduced motion and device scale are fixed. Clock/random/network data are not automatically frozen. Screenshot diffs compare image dimensions and count pixels with any RGBA channel difference above 25/255. This is a simple Rust threshold, not pixelmatch. / Mỗi bản chụp hai lần trong context ẩn danh. Runner cố định locale và môi trường, nhưng chưa khóa clock/random/network. Khác ảnh dùng ngưỡng kênh RGBA 25/255, không phải pixelmatch.
 
 The run contains reports, `contract.json`, `inputs.json`, per-side checks and screenshots. `inputs.json` records commit identities, lockfile hashes, runtime and browser-tool version. Evidence hashes cover emitted bytes. The contract digest binds normalized input; the exported contract may be redacted, so keep the original configuration for replay. / Giữ cấu hình gốc để chạy lại; bản xuất có thể đã che dữ liệu. Hash xác định byte, không chứng minh nguyên nhân lỗi.
 

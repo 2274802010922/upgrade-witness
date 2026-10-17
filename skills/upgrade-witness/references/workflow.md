@@ -3,9 +3,9 @@
 ## Prerequisites and scope
 
 Locate a built checkout of Upgrade Witness or a verified local installation.
-Use its `doctor` command and help output to inspect prerequisites. The current
-runner targets one npm-based React/Vite app, a committed package-lock, and
-Chromium. A skill-only install is insufficient. Match any compatibility claim
+Use its `doctor` command and help output to inspect prerequisites. The native
+Rust runner targets one npm-based React/Vite app, committed package-locks and
+Chrome/Chromium. The core runner does not require Node.js; a skill-only install is insufficient. Match any compatibility claim
 to the release being used; do not assume Next.js, pnpm, monorepos or MCP support.
 
 The CLI creates isolated copies of committed Git revisions. Uncommitted work
@@ -57,8 +57,8 @@ from the user's request or review context, not from the fact that head differs.
 From the CLI checkout, use the actual paths and full selected commit hashes:
 
 ```text
-node dist/src/cli.js doctor
-node dist/src/cli.js verify --repo <project-path> --base <base-sha> --head <head-sha> --config <contract-json> --out <new-report-directory> --trust-project
+cargo run --locked -- doctor
+cargo run --locked -- verify --repo <project-path> --base <base-sha> --head <head-sha> --config <contract-json> --out <new-report-directory> --trust-project
 ```
 
 The angle-bracket values are placeholders; replace them and quote paths for the

@@ -11,8 +11,8 @@ with linked evidence and coverage limits.
 
 Read [references/workflow.md](references/workflow.md) when preparing a contract,
 running the CLI, or interpreting an incomplete result. This skill requires the
-separately built Upgrade Witness CLI; copying the skill folder does not install
-the runner, npm dependencies, or Chromium.
+native Rust `uw` binary; copying the skill folder does not install the runner or
+Chromium.
 
 ## Choose the work from the request
 
